@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content=" ">
+<title>Graph class [Python NCAPI v2] | Intel® Movidius™ Neural Compute SDK Documentation</title>
+<link rel="stylesheet" href="../../../css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+<link rel="stylesheet" href="../../../css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="../../../css/customstyles.css">
+<link rel="stylesheet" href="../../../css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="../../../css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="../../../js/jquery.navgoco.min.js"></script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="../../../js/toc.js"></script>
+<script src="../../../js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="../../../images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+    <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Graph class [Python NCAPI v2]</title>
+<meta name="generator" content="Jekyll v3.8.1" />
+<meta property="og:title" content="Graph class [Python NCAPI v2]" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Documentation for the Intel® Movidius™ Neural Compute SDK and Intel® Movidius™ Neural Compute API." />
+<meta property="og:description" content="Documentation for the Intel® Movidius™ Neural Compute SDK and Intel® Movidius™ Neural Compute API." />
+<link rel="canonical" href="https://movidius.github.io/ncsdk/ncapi/ncapi2/py_api/Graph.html" />
+<meta property="og:url" content="https://movidius.github.io/ncsdk/ncapi/ncapi2/py_api/Graph.html" />
+<script type="application/ld+json">
+{"description":"Documentation for the Intel® Movidius™ Neural Compute SDK and Intel® Movidius™ Neural Compute API.","@type":"WebPage","url":"https://movidius.github.io/ncsdk/ncapi/ncapi2/py_api/Graph.html","headline":"Graph class [Python NCAPI v2]","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="../../../index.html">&nbsp;<span class="projectTitle"> Intel® Movidius™ Neural Compute SDK</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button 
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+		-->
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://developer.movidius.com/repo" target="_blank">GitHub</a></li>
+                
+                
+                
+                <li><a href="https://developer.movidius.com/blog" target="_blank">Blog</a></li>
+                
+                
+                
+                <li><a href="https://developer.movidius.com/forums" target="_blank">User Forum</a></li>
+                
+                
+                
+                <li><a href="https://developer.movidius.com/examples" target="_blank">NC App Zoo</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                <!--comment out this block if you want to hide search-->
+                <li>
+                    <!--start search-->
+                    <div id="search-demo-container">
+                        <input type="text" id="search-input" placeholder="search">
+                        <ul id="results-container"></ul>
+                    </div>
+                    <script src="../../../js/jekyll-search.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                            SimpleJekyllSearch.init({
+                                searchInput: document.getElementById('search-input'),
+                                resultsContainer: document.getElementById('results-container'),
+                                dataSource: '../../../search.json',
+                                searchResultTemplate: '<li><a href="https://movidius.github.io/ncsdk{url}" title="">{display}</a></li>',
+                    noResultsText: '',
+                            limit: 10,
+                            fuzzy: true,
+                    })
+                    </script>
+                    <!--end search-->
+                </li>
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+<ul id="mysidebar" class="nav">
+    <li class="sidebarTitle">NCSDK Python API 2.x</li>
+    
+    
+    
+    
+    
+    <li class="singlenav">
+    
+    <a href="../../../ncapi/ncapi2/py_api/readme.html">Overview</a>
+    </li>
+    
+    
+    
+    
+    
+    <li>
+        <a href="#">Enumerations</a>
+        <ul>
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/DeviceHwVersion.html">DeviceHwVersion</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/DeviceOption.html">DeviceOption</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/DeviceState.html">DeviceState</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/FifoDataType.html">FifoDataType</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/FifoOption.html">FifoOption</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/FifoState.html">FifoState</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/FifoType.html">FifoType</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/GlobalOption.html">GlobalOption</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/GraphOption.html">GraphOption</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/GraphState.html">GraphState</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/LogLevel.html">LogLevel</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/Status.html">Status</a></li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    
+    <li>
+        <a href="#">Structures</a>
+        <ul>
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/TensorDescriptor.html">TensorDescriptor</a></li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    
+    <li>
+        <a href="#">Global Functions</a>
+        <ul>
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/enumerate_devices.html">enumerate_devices()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/global_get_option.html">global_get_option()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi2/py_api/global_set_option.html">global_set_option()</a></li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    
+    <li>
+        <a href="#">Classes</a>
+        <ul>
+            
+            
+            
+            
+            
+            <li class="subfolders">
+                <a href="#">Device</a>
+                <ul>
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Device.html">Overview</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Device.close.html">Device.close()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Device.destroy.html">Device.destroy()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Device.get_option.html">Device.get_option()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Device.open.html">Device.open()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Device.set_option.html">Device.set_option()</a></li>
+                    
+                    
+                    
+                </ul>
+            </li>
+            
+            
+            
+            <li class="subfolders">
+                <a href="#">Fifo</a>
+                <ul>
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Fifo.html">Overview</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Fifo.allocate.html">Fifo.allocate()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Fifo.destroy.html">Fifo.destroy()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Fifo.get_option.html">Fifo.get_option()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Fifo.read_elem.html">Fifo.read_elem()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Fifo.remove_elem.html">Fifo.remove_elem()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Fifo.set_option.html">Fifo.set_option()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Fifo.write_elem.html">Fifo.write_elem()</a></li>
+                    
+                    
+                    
+                </ul>
+            </li>
+            
+            
+            
+            <li class="subfolders">
+                <a href="#">Graph</a>
+                <ul>
+                    
+                    
+                    
+                    <li class="active"><a href="../../../ncapi/ncapi2/py_api/Graph.html">Overview</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Graph.allocate.html">Graph.allocate()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Graph.allocate_with_fifos.html">Graph.allocate_with_fifos()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Graph.destroy.html">Graph.destroy()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Graph.get_option.html">Graph.get_option()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Graph.queue_inference.html">Graph.queue_inference()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Graph.queue_inference_with_fifo_elem.html">Graph.queue_inference_with_fifo_elem()</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../../../ncapi/ncapi2/py_api/Graph.set_option.html">Graph.set_option()</a></li>
+                    
+                    
+                    
+                </ul>
+            </li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    <!-- if you aren't using the accordion, uncomment this block:
+       <p class="external">
+           <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+       </p>
+       -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <h1 id="class-graph">class Graph</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Info</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Package</td>
+      <td>mvnc</td>
+    </tr>
+    <tr>
+      <td>Module</td>
+      <td>mvncapi</td>
+    </tr>
+    <tr>
+      <td>Version</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <td>See also</td>
+      <td><a href="GraphOption.html">GraphOption</a>, <a href="Device.html">Device</a>, <a href="Fifo.html">Fifo</a>, <a href="Graph.allocate.html">Graph.allocate()</a>, <a href="Graph.allocate_with_fifos.html">Graph.allocate_with_fifos()</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="overview">Overview</h2>
+
+<p>The <a href="Graph.html">Graph</a> class represents a neural network graph and provides methods to perform inferences.</p>
+
+<p>Create and allocate a <a href="Graph.html">Graph</a> for each network graph file. A <a href="Device.html">Device</a> can have more than one <a href="Graph.html">Graph</a> allocated to it, but each <a href="Graph.html">Graph</a> can only be allocated to a single <a href="Device.html">Device</a>.</p>
+
+<h2 id="initialization">Initialization</h2>
+<p>Create a Graph instance:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">graph</span> <span class="o">=</span> <span class="n">mvncapi</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td>str</td>
+      <td>A name for the graph; this can be anything you like up to mvncapi.MAX_NAME_SIZE characters, or just an empty string.<br /><br />The name can be retrieved later with <a href="Graph.get_option.html">Graph.get_option()</a>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>When the Graph has been successfully created, the <a href="GraphState.html">GraphState</a> will be CREATED.</p>
+
+<h2 id="methods">Methods</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="Graph.allocate.html">allocate</a></td>
+      <td>Allocate a <a href="Graph.html">Graph</a> to a device.</td>
+    </tr>
+    <tr>
+      <td><a href="Graph.allocate_with_fifos.html">allocate_with_fifos</a></td>
+      <td>Allocate a graph to a device and create and allocate associated <a href="Fifo.html">Fifos</a>.</td>
+    </tr>
+    <tr>
+      <td><a href="Graph.destroy.html">destroy</a></td>
+      <td>Deallocate a graph that was allocated with <a href="Graph.allocate.html">Graph.allocate()</a>.</td>
+    </tr>
+    <tr>
+      <td><a href="Graph.get_option.html">get_option</a></td>
+      <td>Get the value of a graph option.<br /><br />See <a href="GraphOption.html">GraphOption</a>.</td>
+    </tr>
+    <tr>
+      <td><a href="Graph.queue_inference.html">queue_inference</a></td>
+      <td>Queue an inference to be processed by the graph.</td>
+    </tr>
+    <tr>
+      <td><a href="Graph.queue_inference_with_fifo_elem.html">queue_inference_with_fifo_elem</a></td>
+      <td>Write input tensor data to an input Fifo buffer and then trigger graph execution.</td>
+    </tr>
+    <tr>
+      <td><a href="Graph.set_option.html">set_option</a></td>
+      <td>Set the value of a graph option.<br /><br />See <a href="GraphOption.html">GraphOption</a>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="typical-usage">Typical Usage</h2>
+<ul>
+  <li>Create a <a href="Graph.html">Graph</a> instance.</li>
+  <li>Create input and output <a href="Fifo.html">Fifo</a> queues and allocate the graph for a neural compute device with <a href="Graph.allocate_with_fifos.html">Graph.allocate_with_fifos()</a>.
+    <ul>
+      <li>Alternatively, just allocate the <a href="Graph.html">Graph</a> with <a href="Graph.allocate.html">Graph.allocate()</a> and handle <a href="Fifo.html">Fifo</a> creation and allocation separately.</li>
+    </ul>
+  </li>
+  <li>Write an image to the input <a href="Fifo.html">Fifo</a> and queue an inference with <a href="Graph.queue_inference_with_fifo_elem.html">Graph.queue_inference_with_fifo_elem()</a>.
+    <ul>
+      <li>You can also just queue an inference from an input <a href="Fifo.html">Fifo</a> that already contains elements with <a href="Graph.queue_inference.html">Graph.queue_inference()</a> instead.</li>
+    </ul>
+  </li>
+  <li>When finished, destroy the <a href="Graph.html">Graph</a> and free associated resources with <a href="Graph.destroy.html">Graph.destroy()</a>.</li>
+</ul>
+
+<p>See the <a href="readme.html">Python API Overview</a> for more information about typical API usage.</p>
+
+<h2 id="examples">Examples</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">mvnc</span> <span class="kn">import</span> <span class="n">mvncapi</span>
+
+<span class="c">#</span>
+<span class="c"># Create and open a Device...</span>
+<span class="c">#</span>
+
+<span class="c"># Create a Graph</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">mvncapi</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="s">'graph1'</span><span class="p">)</span>
+
+<span class="c"># Read a compiled network graph from file (set the graph_filepath correctly for your graph file)</span>
+<span class="n">graph_filepath</span> <span class="o">=</span> <span class="s">'./graph'</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">graph_filepath</span><span class="p">,</span> <span class="s">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">graph_buffer</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c"># Allocate the graph on the device and create input and output Fifos</span>
+<span class="n">input_fifo</span><span class="p">,</span> <span class="n">output_fifo</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">allocate_with_fifos</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">graph_buffer</span><span class="p">)</span>
+
+<span class="c">#</span>
+<span class="c"># Pre-procces your input tensor...</span>
+<span class="c">#</span>
+
+<span class="c"># Write the tensor to the input Fifo and queue an inference</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">queue_inference_with_fifo_elem</span><span class="p">(</span><span class="n">input_fifo</span><span class="p">,</span> <span class="n">output_fifo</span><span class="p">,</span> <span class="n">input_tensor</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="s">'object1'</span><span class="p">)</span>
+
+<span class="c">#</span>
+<span class="c"># Read the output from the output_fifo and use it as needed...</span>
+<span class="c">#</span>
+
+<span class="c"># Clean up</span>
+<span class="n">input_fifo</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+<span class="n">output_fifo</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+<span class="n">device</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">device</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+</code></pre></div></div>
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+               &copy;2018 Intel Corporation <br />
+                    * Other names and brands may be claimed as the property of others.
+                </div>
+            </div>
+</footer>
+
+</html>

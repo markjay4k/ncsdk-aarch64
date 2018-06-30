@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content=" ">
+<title>mvncLoadTensor() [C NCAPI v1] | Intel® Movidius™ Neural Compute SDK Documentation</title>
+<link rel="stylesheet" href="../../../css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+<link rel="stylesheet" href="../../../css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="../../../css/customstyles.css">
+<link rel="stylesheet" href="../../../css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="../../../css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="../../../js/jquery.navgoco.min.js"></script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="../../../js/toc.js"></script>
+<script src="../../../js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="../../../images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+    <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>mvncLoadTensor() [C NCAPI v1]</title>
+<meta name="generator" content="Jekyll v3.8.1" />
+<meta property="og:title" content="mvncLoadTensor() [C NCAPI v1]" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Documentation for the Intel® Movidius™ Neural Compute SDK and Intel® Movidius™ Neural Compute API." />
+<meta property="og:description" content="Documentation for the Intel® Movidius™ Neural Compute SDK and Intel® Movidius™ Neural Compute API." />
+<link rel="canonical" href="https://movidius.github.io/ncsdk/ncapi/ncapi1/c_api/mvncLoadTensor.html" />
+<meta property="og:url" content="https://movidius.github.io/ncsdk/ncapi/ncapi1/c_api/mvncLoadTensor.html" />
+<script type="application/ld+json">
+{"description":"Documentation for the Intel® Movidius™ Neural Compute SDK and Intel® Movidius™ Neural Compute API.","@type":"WebPage","url":"https://movidius.github.io/ncsdk/ncapi/ncapi1/c_api/mvncLoadTensor.html","headline":"mvncLoadTensor() [C NCAPI v1]","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="../../../index.html">&nbsp;<span class="projectTitle"> Intel® Movidius™ Neural Compute SDK</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button 
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+		-->
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://developer.movidius.com/repo" target="_blank">GitHub</a></li>
+                
+                
+                
+                <li><a href="https://developer.movidius.com/blog" target="_blank">Blog</a></li>
+                
+                
+                
+                <li><a href="https://developer.movidius.com/forums" target="_blank">User Forum</a></li>
+                
+                
+                
+                <li><a href="https://developer.movidius.com/examples" target="_blank">NC App Zoo</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                <!--comment out this block if you want to hide search-->
+                <li>
+                    <!--start search-->
+                    <div id="search-demo-container">
+                        <input type="text" id="search-input" placeholder="search">
+                        <ul id="results-container"></ul>
+                    </div>
+                    <script src="../../../js/jekyll-search.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                            SimpleJekyllSearch.init({
+                                searchInput: document.getElementById('search-input'),
+                                resultsContainer: document.getElementById('results-container'),
+                                dataSource: '../../../search.json',
+                                searchResultTemplate: '<li><a href="https://movidius.github.io/ncsdk{url}" title="">{display}</a></li>',
+                    noResultsText: '',
+                            limit: 10,
+                            fuzzy: true,
+                    })
+                    </script>
+                    <!--end search-->
+                </li>
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+<ul id="mysidebar" class="nav">
+    <li class="sidebarTitle">NCSDK C API 1.x</li>
+    
+    
+    
+    
+    
+    <li class="singlenav">
+    
+    <a href="../../../ncapi/ncapi1/c_api/readme.html">Overview</a>
+    </li>
+    
+    
+    
+    
+    
+    <li>
+        <a href="#">Enumerations</a>
+        <ul>
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncDeviceOptions.html">mvncDeviceOptions</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncGlobalOptions.html">mvncGlobalOptions</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncGraphOptions.html">mvncGraphOptions</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncStatus.html">mvncStatus</a></li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    
+    <li>
+        <a href="#">Functions</a>
+        <ul>
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncAllocateGraph.html">mvncAllocateGraph()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncCloseDevice.html">mvncCloseDevice()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncDeallocateGraph.html">mvncDeallocateGraph()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncGetDeviceName.html">mvncGetDeviceName()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncGetDeviceOption.html">mvncGetDeviceOption()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncGetGlobalOption.html">mvncGetGlobalOption()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncGetGraphOption.html">mvncGetGraphOption()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncGetResult.html">mvncGetResult()</a></li>
+            
+            
+            
+            
+            
+            
+            <li class="active"><a href="../../../ncapi/ncapi1/c_api/mvncLoadTensor.html">mvncLoadTensor()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncOpenDevice.html">mvncOpenDevice()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncSetDeviceOption.html">mvncSetDeviceOption()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncSetGlobalOption.html">mvncSetGlobalOption()</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../../../ncapi/ncapi1/c_api/mvncSetGraphOption.html">mvncSetGraphOption()</a></li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    <!-- if you aren't using the accordion, uncomment this block:
+       <p class="external">
+           <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+       </p>
+       -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <h1 id="mvncloadtensor">mvncLoadTensor()</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Header</td>
+      <td>mvnc.h</td>
+    </tr>
+    <tr>
+      <td>Library</td>
+      <td>libmvnc.so</td>
+    </tr>
+    <tr>
+      <td>Return</td>
+      <td><a href="mvncStatus.html">mvncStatus</a></td>
+    </tr>
+    <tr>
+      <td>Version</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>See also</td>
+      <td><a href="mvncOpenDevice.html">mvncOpenDevice</a>, <a href="mvncAllocateGraph.html">mvncAllocateGraph</a>, <a href="mvncGetResult.html">mvncGetResult</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="overview">Overview</h2>
+<p>This function initiates an inference on the specified graph via the associated Intel® Movidius™ Neural Compute Stick (Intel® Movidius™ NCS) device. After calling this function, use the mvncGetResult() function to retrieve the inference result.</p>
+
+<h2 id="prototype">Prototype</h2>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mvncStatus</span> <span class="n">mvncLoadTensor</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">graphHandle</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">inputTensor</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">inputTensorLength</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">userParam</span><span class="p">);</span>
+</code></pre></div></div>
+<h2 id="parameters">Parameters</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>graphHandle</td>
+      <td>void*</td>
+      <td>Pointer to opaque graph data type that was initialized with the mvncAllocateGraph() function that represents the neural network for which an inference will be initiated.</td>
+    </tr>
+    <tr>
+      <td>inputTensor</td>
+      <td>const void*</td>
+      <td>Pointer to tensor data buffer, which contains 16-bit half precision floats (per IEEE 754 half precision binary floating-point format: binary16). The values in the buffer are dependent on the neural network (graph), but are typically representations of each color channel of each pixel of an image.</td>
+    </tr>
+    <tr>
+      <td>inputTensorLength</td>
+      <td>unsigned int</td>
+      <td>The length, in bytes, of the buffer pointed to by the inputTensor parameter.</td>
+    </tr>
+    <tr>
+      <td>userParam</td>
+      <td>void*</td>
+      <td>Pointer to user data that will be returned along with the inference result from the GetResult() function.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="return">Return</h2>
+<p>This function returns an appropriate value from the <a href="mvncStatus.html">mvncStatus</a> enumeration.</p>
+
+<h2 id="known-issues">Known Issues</h2>
+
+<h2 id="example">Example</h2>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span>
+<span class="p">.</span>
+<span class="p">.</span>
+
+<span class="c1">// Use a 16-bit unsigned type to represent half precision floats, since C++ has no </span>
+<span class="c1">// built-in support for 16-bit floats.</span>
+<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">half</span><span class="p">;</span>
+
+<span class="c1">// GoogleNet image dimensions and network mean values for each channel. This information is specific </span>
+<span class="c1">// for each network, and usually available from network creators.</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">networkDim</span> <span class="o">=</span> <span class="mi">224</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">networkMean</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">.</span><span class="mi">40787054</span><span class="o">*</span><span class="mi">255</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">45752458</span><span class="o">*</span><span class="mi">255</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">48109378</span><span class="o">*</span><span class="mi">255</span><span class="p">.</span><span class="mi">0</span><span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">.</span>
+<span class="p">.</span>
+<span class="p">.</span>
+    <span class="c1">//</span>
+    <span class="c1">// Open NCS device and set deviceHandle to the valid handle.</span>
+    <span class="c1">//</span>
+    
+    <span class="c1">//</span>
+    <span class="c1">// Read graph from disk and call mvncAllocateGraph to set graphHandle appropriately.</span>
+    <span class="c1">//</span>
+
+    <span class="c1">//</span>
+    <span class="c1">// Load an image from disk.</span>
+    <span class="c1">// LoadImage will read image from disk, convert channels to floats.</span>
+    <span class="c1">// Subtract network mean for each value in each channel. Then convert</span>
+    <span class="c1">// floats to half precision floats.</span>
+    <span class="c1">// Return pointer to the buffer of half precision floats. </span>
+    <span class="n">half</span><span class="o">*</span> <span class="n">imageBufFp16</span> <span class="o">=</span> <span class="n">LoadImage</span><span class="p">(</span><span class="s">"image.png"</span><span class="p">,</span> <span class="n">networkDim</span><span class="p">,</span> <span class="n">networkMean</span><span class="p">);</span>
+        
+    <span class="c1">// Calculate the length of the buffer that contains the half precision floats.</span>
+    <span class="c1">// 3 channels * width * height * sizeof a 16-bit float </span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">lenBufFp16</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">networkDim</span><span class="o">*</span><span class="n">networkDim</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">imageBufFp16</span><span class="p">);</span>
+
+    <span class="c1">// Start the inference with mvncLoadTensor()</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">mvncLoadTensor</span><span class="p">(</span><span class="n">graphHandle</span><span class="p">,</span> <span class="n">imageBufFp16</span><span class="p">,</span> <span class="n">lenBufFp16</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">retCode</span> <span class="o">==</span> <span class="n">MVNC_OK</span><span class="p">)</span>
+    <span class="p">{</span>   <span class="c1">// The inference has been started, now call mvncGetResult() for the</span>
+        <span class="c1">// inference result. </span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"Successfully loaded the tensor for image %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="s">"image.png"</span><span class="p">);</span>
+     
+        <span class="c1">// Here mvncGetResult() can be called to get the result of the inference</span>
+        <span class="c1">// that was started with mvncLoadTensor() above.</span>
+    <span class="p">}</span>
+
+    <span class="c1">// </span>
+    <span class="c1">// Call mvncDeallocateGraph to free the resources tied to graphHandle.</span>
+    <span class="c1">// Close the device with mvncCloseDevice().</span>
+    <span class="c1">// </span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+               &copy;2018 Intel Corporation <br />
+                    * Other names and brands may be claimed as the property of others.
+                </div>
+            </div>
+</footer>
+
+</html>

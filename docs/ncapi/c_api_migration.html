@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="keywords" content=" c++, ncapi">
+<title>Migrating C/C++ Applications from NCAPI v1 to NCAPI v2 | Intel® Movidius™ Neural Compute SDK Documentation</title>
+<link rel="stylesheet" href="../css/syntax.css">
+
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">-->
+<link rel="stylesheet" href="../css/modern-business.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="../css/customstyles.css">
+<link rel="stylesheet" href="../css/boxshadowproperties.css">
+<!-- most color styles are extracted out to here -->
+<link rel="stylesheet" href="../css/theme-blue.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="../js/jquery.navgoco.min.js"></script>
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- Anchor.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
+<script src="../js/toc.js"></script>
+<script src="../js/customscripts.js"></script>
+
+<link rel="shortcut icon" href="../images/favicon.ico">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+    <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Migrating C/C++ Applications from NCAPI v1 to NCAPI v2</title>
+<meta name="generator" content="Jekyll v3.8.1" />
+<meta property="og:title" content="Migrating C/C++ Applications from NCAPI v1 to NCAPI v2" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Documentation for the Intel® Movidius™ Neural Compute SDK and Intel® Movidius™ Neural Compute API." />
+<meta property="og:description" content="Documentation for the Intel® Movidius™ Neural Compute SDK and Intel® Movidius™ Neural Compute API." />
+<link rel="canonical" href="https://movidius.github.io/ncsdk/ncapi/c_api_migration.html" />
+<meta property="og:url" content="https://movidius.github.io/ncsdk/ncapi/c_api_migration.html" />
+<script type="application/ld+json">
+{"description":"Documentation for the Intel® Movidius™ Neural Compute SDK and Intel® Movidius™ Neural Compute API.","@type":"WebPage","url":"https://movidius.github.io/ncsdk/ncapi/c_api_migration.html","headline":"Migrating C/C++ Applications from NCAPI v1 to NCAPI v2","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <script>
+        $(document).ready(function() {
+            // Initialize navgoco with default options
+            $("#mysidebar").navgoco({
+                caretHtml: '',
+                accordion: true,
+                openClass: 'active', // open
+                save: false, // leave false or nav highlighting doesn't work right
+                cookie: {
+                    name: 'navgoco',
+                    expires: false,
+                    path: '/'
+                },
+                slide: {
+                    duration: 400,
+                    easing: 'swing'
+                }
+            });
+
+            $("#collapseAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', false);
+            });
+
+            $("#expandAll").click(function(e) {
+                e.preventDefault();
+                $("#mysidebar").navgoco('toggle', true);
+            });
+        });
+
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#tg-sb-link").click(function() {
+                $("#tg-sb-sidebar").toggle();
+                $("#tg-sb-content").toggleClass('col-md-9');
+                $("#tg-sb-content").toggleClass('col-md-12');
+                $("#tg-sb-icon").toggleClass('fa-toggle-on');
+                $("#tg-sb-icon").toggleClass('fa-toggle-off');
+            });
+        });
+    </script>
+    
+
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container topnavlinks">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="fa fa-home fa-lg navbar-brand" href="../index.html">&nbsp;<span class="projectTitle"> Intel® Movidius™ Neural Compute SDK</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <!-- toggle sidebar button 
+                <li><a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a></li>
+		-->
+                <!-- entries without drop-downs appear here -->
+
+
+
+
+                
+                
+                
+                <li><a href="https://developer.movidius.com/repo" target="_blank">GitHub</a></li>
+                
+                
+                
+                <li><a href="https://developer.movidius.com/blog" target="_blank">Blog</a></li>
+                
+                
+                
+                <li><a href="https://developer.movidius.com/forums" target="_blank">User Forum</a></li>
+                
+                
+                
+                <li><a href="https://developer.movidius.com/examples" target="_blank">NC App Zoo</a></li>
+                
+                
+                
+                <!-- entries with drop-downs appear here -->
+                <!-- conditional logic to control which topnav appears for the audience defined in the configuration file.-->
+                
+                
+                <!--comment out this block if you want to hide search-->
+                <li>
+                    <!--start search-->
+                    <div id="search-demo-container">
+                        <input type="text" id="search-input" placeholder="search">
+                        <ul id="results-container"></ul>
+                    </div>
+                    <script src="../js/jekyll-search.js" type="text/javascript"></script>
+                    <script type="text/javascript">
+                            SimpleJekyllSearch.init({
+                                searchInput: document.getElementById('search-input'),
+                                resultsContainer: document.getElementById('results-container'),
+                                dataSource: '../search.json',
+                                searchResultTemplate: '<li><a href="https://movidius.github.io/ncsdk{url}" title="">{display}</a></li>',
+                    noResultsText: '',
+                            limit: 10,
+                            fuzzy: true,
+                    })
+                    </script>
+                    <!--end search-->
+                </li>
+            </ul>
+        </div>
+        </div>
+        <!-- /.container -->
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  <div id="main">
+    <!-- Content Row -->
+    <div class="row">
+        
+        
+            <!-- Sidebar Column -->
+            <div class="col-md-3" id="tg-sb-sidebar">
+                
+
+<ul id="mysidebar" class="nav">
+    <li class="sidebarTitle">NCSDK Documentation </li>
+    
+    
+    
+    
+    <li>
+        <a href="#">Overview</a>
+        <ul>
+            
+            
+            
+            <li><a href="../index.html">Introduction</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../ncs.html">Intel® Movidius™ Neural Compute Stick</a></li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    
+    <li>
+        <a href="#">Installation</a>
+        <ul>
+            
+            
+            
+            <li><a href="../install.html">Basic Installation</a></li>
+            
+            
+            
+            <li class="subfolders">
+                <a href="#">Other Installation Options</a>
+                <ul>
+                    
+                    
+                    
+                    <li><a href="../docker.html">Docker</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../virtualenv.html">virtualenv</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../vm_config.html">Virtual Machine</a></li>
+                    
+                    
+                    
+                </ul>
+            </li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    
+    <li>
+        <a href="#">Frameworks</a>
+        <ul>
+            
+            
+            
+            <li><a href="../configure_network.html">Network Configuration</a></li>
+            
+            
+            
+            <li class="subfolders">
+                <a href="#">Caffe</a>
+                <ul>
+                    
+                    
+                    
+                    <li><a href="../caffe.html">Overview</a></li>
+                    
+                    
+                    
+                </ul>
+            </li>
+            
+            
+            
+            <li class="subfolders">
+                <a href="#">TensorFlow™</a>
+                <ul>
+                    
+                    
+                    
+                    <li><a href="../tensorflow.html">Overview</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../tf_compile_guidance.html">Compilation Guidance</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../tf_slim.html">Compiling TensorFlow-Slim Networks</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../tf_modelzoo.html">Compiling Model Zoo Networks</a></li>
+                    
+                    
+                    
+                </ul>
+            </li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    
+    <li>
+        <a href="#">Toolkit</a>
+        <ul>
+            
+            
+            
+            <li><a href="../tools/tools_overview.html">Toolkit Overview</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../tools/compile.html">mvNCCompile</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../tools/check.html">mvNCCheck</a></li>
+            
+            
+            
+            
+            
+            
+            <li><a href="../tools/profile.html">mvNCProfile</a></li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    
+    <li>
+        <a href="#">API</a>
+        <ul>
+            
+            
+            
+            <li><a href="../ncapi/readme.html">Overview</a></li>
+            
+            
+            
+            <li class="subfolders">
+                <a href="#">NCAPI v2</a>
+                <ul>
+                    
+                    
+                    
+                    <li><a href="../ncapi/ncapi2/py_api/readme.html">Python</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../ncapi/ncapi2/c_api/readme.html">C/C++</a></li>
+                    
+                    
+                    
+                </ul>
+            </li>
+            
+            
+            
+            <li class="subfolders">
+                <a href="#">NCAPI v1</a>
+                <ul>
+                    
+                    
+                    
+                    <li><a href="../ncapi/ncapi1/py_api/readme.html">Python</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li><a href="../ncapi/ncapi1/c_api/readme.html">C/C++</a></li>
+                    
+                    
+                    
+                </ul>
+            </li>
+            
+            
+            
+            <li class="subfolders">
+                <a href="#">NCAPI v1 to NCAPI v2 Conversion</a>
+                <ul>
+                    
+                    
+                    
+                    <li><a href="../ncapi/python_api_migration.html">Python</a></li>
+                    
+                    
+                    
+                    
+                    
+                    <li class="active"><a href="../ncapi/c_api_migration.html">C/C++</a></li>
+                    
+                    
+                    
+                </ul>
+            </li>
+            
+            
+            
+            
+        </ul>
+    </li>
+    
+    
+    
+    
+    
+    
+    <li class="singlenav">
+    
+    <a href="../examples.html">Examples</a>
+    </li>
+    
+    
+    
+    
+    
+    
+    <li class="singlenav">
+    
+    <a href="../release_notes.html">Release Notes</a>
+    </li>
+    
+    
+    
+    
+    
+    
+    <li class="singlenav">
+    
+    <a href="../support.html">Support</a>
+    </li>
+    
+    
+    
+    
+    <!-- if you aren't using the accordion, uncomment this block:
+       <p class="external">
+           <a href="#" id="collapseAll">Collapse All</a> | <a href="#" id="expandAll">Expand All</a>
+       </p>
+       -->
+</ul>
+
+<!-- this highlights the active parent class in the navgoco sidebar. this is critical so that the parent expands when you're viewing a page. This must appear below the sidebar code above. Otherwise, if placed inside customscripts.js, the script runs before the sidebar code runs and the class never gets inserted.-->
+<script>$("li.active").parents('li').toggleClass("active");</script>
+
+            </div>
+            
+        
+
+        <!-- Content Column -->
+        <div class="col-md-9" id="tg-sb-content">
+            <h1 id="migrating-cc-applications-from-ncapi-v1-to-ncapi-v2">Migrating C/C++ Applications from NCAPI v1 to NCAPI v2</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>NCAPI v2 Documentation</th>
+      <th>NCAPI v1 Documentation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="ncapi2/c_api/readme.html">C API v2</a></td>
+      <td><a href="ncapi1/c_api/readme.html">C API v1</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="fifo-queues">FIFO queues</h2>
+
+<p>In the Intel® Movidius™ Neural Compute SDK (Intel® Movidius NCSDK) v1, <a href="ncapi1/c_api/mvncLoadTensor.html">mvncLoadTensor()</a> was used to load an input tensor to a neural compute device and trigger an inference. <a href="ncapi1/c_api/mvncGetResult.html">mvncGetResult()</a> was used to read the output inference result.</p>
+
+<p>NCAPI v2 introduced FIFO queues for input and output. This allows multiple inputs to be queued for inference and allows multiple graphs to read from the same input queue. FIFO usage is required by the NCAPI v2.</p>
+
+<p>Typical FIFO usage through the API is as follows:</p>
+<ol>
+  <li>Create pointers to <a href="ncapi2/c_api/ncFifoHandle_t.html">ncFifoHandle_t</a> structs for input and output FIFOs.</li>
+  <li>Allocate a graph and initialize and allocate the associated FIFOs with <a href="ncapi2/c_api/ncGraphAllocateWithFifos.html">ncGraphAllocateWithFifos()</a> or <a href="ncapi2/c_api/ncGraphAllocateWithFifosEx.html">ncGraphAllocateWithFifosEx()</a>.</li>
+  <li>Add input tensors to the input FIFO and queue an inference with <a href="ncapi2/c_api/ncGraphQueueInferenceWithFifoElem.html">ncGraphQueueInferenceWithFifoElem()</a>.</li>
+  <li>Read the inference result from the output FIFO with <a href="ncapi2/c_api/ncFifoReadElem.html">ncFifoReadElem()</a>.</li>
+  <li>After usage, free FIFO resources with <a href="ncapi2/c_api/ncFifoDestroy.html">ncFifoDestroy()</a>.</li>
+</ol>
+
+<p>See the Example Code Comparison section below for example FIFO usage.</p>
+
+<h2 id="inputoutput-data-types">Input/output data types</h2>
+
+<p>In NCAPI v1, input data for inferences had to be 16 bit floating point data type.</p>
+
+<p>In NCAPI v2, input data for inferences can be 16 bit or 32 bit floating point data type. The default data type is FP32. The data type is set for each FIFO using <a href="ncapi2/c_api/ncFifoSetOption.html">ncFifoSetOption()</a> with <a href="ncapi2/c_api/ncFifoDataType_t.html">ncFifoDataType_t</a> or when creating FIFOs with <a href="ncapi2/c_api/ncGraphAllocateWithFifosEx.html">ncGraphAllocateWithFifosEx()</a>.</p>
+
+<p>Note: If the input FIFO <a href="ncapi2/c_api/ncFifoDataType_t.html">ncFifoDataType_t</a> is configured to FP32, the API will convert the data to the FP16 data type automatically when performing inferences. If the output FIFO <a href="ncapi2/c_api/ncFifoDataType_t.html">ncFifoDataType_t</a> is configured to 32FP, the API will convert the output back to the FP32 data type.</p>
+
+<h2 id="other-changes">Other changes</h2>
+<p>Most function names and signatures were updated. Please reference the <a href="ncapi2/c_api/readme.html">NCAPI v2</a> documentation for correct usage.</p>
+
+<h1 id="equivalent-api-calls">Equivalent API Calls</h1>
+
+<h3 id="enumerations">Enumerations</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>NCAPI v1</th>
+      <th>NCAPI v2</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncStatus.html">mvncStatus</a></td>
+      <td><a href="ncapi2/c_api/ncStatus_t.html">ncStatus_t</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncDeviceOptions.html">mvncDeviceOptions</a></td>
+      <td><a href="ncapi2/c_api/ncDeviceOption_t.html">ncDeviceOption_t</a></td>
+      <td>There are new options in NCAPI v2.</td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncGlobalOptions.html">mvncGlobalOptions</a></td>
+      <td><a href="ncapi2/c_api/ncGlobalOption_t.html">ncGlobalOption_t</a></td>
+      <td>There are new options in NCAPI v2.</td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncGraphOptions.html">mvncGraphOptions</a></td>
+      <td><a href="ncapi2/c_api/ncGraphOption_t.html">ncGraphOption_t</a></td>
+      <td>There are new options in NCAPI v2.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncFifoOption_t.html">ncFifoOption_t</a></td>
+      <td>This is a new enumeration in NCAPI v2 containing options for FIFO queues.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncDeviceState_t.html">ncDeviceState_t</a></td>
+      <td>This is a new enumeration in NCAPI v2 containing possible device states.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncGraphState_t.html">ncGraphState_t</a></td>
+      <td>This is a new enumeration in NCAPI v2 containing possible graph states.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncFifoState_t.html">ncFifoState_t</a></td>
+      <td>This is a new enumeration in NCAPI v2 containing possible FIFO states.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncFifoType_t.html">ncFifoType_t</a></td>
+      <td>This is a new enumeration in NCAPI v2 containing possible FIFO types (i.e. read-only, write-only).</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncFifoDataType_t.html">ncFifoDataType_t</a></td>
+      <td>This is a new enumeration in NCAPI v2 containing possible FIFO data types.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncDeviceHwVersion_t.html">ncDeviceHwVersion_t</a></td>
+      <td>This is a new enumeration in NCAPI v2 containing device hardware versions.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi/c_api/ncLogLevel_t.html">ncLogLevel_t</a></td>
+      <td>This is a new enumeration in NCAPI v2 containing application logging levels.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="structs">Structs</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>NCAPI v1</th>
+      <th>NCAPI v2</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncDeviceHandle_t.html">struct ncDeviceHandle_t</a></td>
+      <td>This is a new struct in NCAPI v2 that is used to point to a device.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncGraphHandle_t.html">struct ncGraphHandle_t</a></td>
+      <td>This is a new struct in NCAPI v2 that is used to point to a graph.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncFifoHandle_t.html">struct ncFifoHandle_t</a></td>
+      <td>This is a new struct in NCAPI v2 that is used to point to a FIFO.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncTensorDescriptor_t.html">struct ncTensorDescriptor_t</a></td>
+      <td>This is a new struct in NCAPI v2 that describes graph inputs and outputs.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="functions">Functions</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>NCAPI v1</th>
+      <th>NCAPI v2</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncGetGlobalOption.html">mvncGetGlobalOption()</a></td>
+      <td><a href="ncapi2/c_api/ncGlobalGetOption.html">ncGlobalGetOption()</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncSetGlobalOption.html">mvncSetGlobalOption()</a></td>
+      <td><a href="ncapi2/c_api/ncGlobalSetOption.html">ncGlobalSetOption()</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncGetDeviceName.html">mvncGetDeviceName()</a></td>
+      <td><em>n/a</em></td>
+      <td>In NCAPI v2, select a device by zero-based index when calling <a href="ncapi2/c_api/ncDeviceCreate.html">ncDeviceCreate()</a>. After creating the device handle, you get can get the device name with <a href="ncapi2/c_api/ncDeviceGetOption.html">ncDeviceGetOption()</a>.</td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncOpenDevice.html">mvncOpenDevice()</a></td>
+      <td><a href="ncapi2/c_api/ncDeviceCreate.html">ncDeviceCreate()</a><br />+<br /><a href="ncapi2/c_api/ncDeviceOpen.html">ncDeviceOpen()</a></td>
+      <td>In NCAPI v2 you must create a pointer to a <a href="ncapi2/c_api/ncDeviceHandle_t.html">ncDeviceHandle_t</a> struct and pass it to <a href="ncapi2/c_api/ncDeviceCreate.html">ncDeviceCreate()</a> and then <a href="ncapi2/c_api/ncDeviceOpen.html">ncDeviceOpen()</a> before using it in any other functions.</td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncCloseDevice.html">mvncCloseDevice()</a></td>
+      <td><a href="ncapi2/c_api/ncDeviceClose.html">ncDeviceClose()</a><br />+<br /><a href="ncapi2/c_api/ncDeviceDestroy.html">ncDeviceDestroy()</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncGetDeviceOption.html">mvncGetDeviceOption()</a></td>
+      <td><a href="ncapi2/c_api/ncDeviceGetOption.html">ncDeviceGetOption()</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncSetDeviceOption.html">mvncSetDeviceOption()</a></td>
+      <td><a href="ncapi2/c_api/ncDeviceSetOption.html">ncDeviceSetOption()</a></td>
+      <td>Some device options may need to be set before calling <a href="ncapi2/c_api/ncDeviceOpen.html">ncDeviceOpen()</a>.</td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncAllocateGraph.html">mvncAllocateGraph()</a></td>
+      <td><a href="ncapi2/c_api/ncGraphCreate.html">ncGraphCreate()</a><br />+<br /><a href="ncapi2/c_api/ncGraphAllocate.html">ncGraphAllocate()</a><br /><br />or<br /><a href="ncapi2/c_api/ncGraphCreate.html">ncGraphCreate()</a><br />+<br /><a href="ncapi2/c_api/ncGraphAllocateWithFifos.html">ncGraphAllocateWithFifos()</a><br /><br />or<br /><a href="ncapi2/c_api/ncGraphCreate.html">ncGraphCreate()</a><br />+<br /><a href="ncapi2/c_api/ncGraphAllocateWithFifosEx.html">ncGraphAllocateWithFifosEx()</a></td>
+      <td>In NCAPI v2 you must create a pointer to a <a href="ncapi2/c_api/ncGraphHandle_t.html">ncGraphHandle_t</a> struct and pass it to <a href="ncapi2/c_api/ncGraphCreate.html">ncGraphCreate()</a> before using it in any other functions.</td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncDeallocateGraph.html">mvncDeallocateGraph()</a></td>
+      <td><a href="ncapi2/c_api/ncGraphDestroy.html">ncGraphDestroy()</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncGetGraphOption.html">mvncGetGraphOption()</a></td>
+      <td><a href="ncapi2/c_api/ncGraphGetOption.html">ncGraphGetOption()</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncSetGraphOption.html">mvncSetGraphOption()</a></td>
+      <td><a href="ncapi2/c_api/ncGraphSetOption.html">ncGraphSetOption()</a></td>
+      <td>Some graph options may need to be set before calling <a href="ncapi2/c_api/ncGraphAllocate.html">ncGraphAllocate()</a>.</td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncLoadTensor.html">mvncLoadTensor()</a></td>
+      <td><a href="ncapi2/c_api/ncFifoWriteElem.html">ncFifoWriteElem()</a><br />+<br /><a href="ncapi2/c_api/ncGraphQueueInference.html">ncGraphQueueInference()</a><br /><br />or<br /><a href="ncapi2/c_api/ncGraphQueueInferenceWithFifoElem.html">ncGraphQueueInferenceWithFifoElem()</a></td>
+      <td>This replaces NCAPI v1’s <a href="ncapi1/c_api/mvncLoadTensor.html">mvncLoadTensor()</a> when used in conjunction with <a href="ncapi2/c_api/ncGraphQueueInference.html">ncGraphQueueInference()</a>.<br /><br />The convenience function <a href="ncapi2/c_api/ncGraphQueueInferenceWithFifoElem.html">ncGraphQueueInferenceWithFifoElem()</a> can be used to combine both NCAPI v2 calls into one.</td>
+    </tr>
+    <tr>
+      <td><a href="ncapi1/c_api/mvncGetResult.html">mvncGetResult()</a></td>
+      <td><a href="ncapi2/c_api/ncFifoReadElem.html">ncFifoReadElem()</a></td>
+      <td>The output is read from the output FIFO specified in the call to <a href="ncapi2/c_api/ncGraphQueueInference.html">ncGraphQueueInference()</a>.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncFifoCreate.html">ncFifoCreate()</a></td>
+      <td>In NCAPI v2 you must create a pointer to an <a href="ncapi2/c_api/ncFifoHandle_t.html">ncFifoHandle_t</a> struct and pass it to <a href="ncapi2/c_api/ncFifoCreate.html">ncFifoCreate()</a> and then <a href="ncapi2/c_api/ncFifoAllocate.html">ncFifoAllocate()</a> before using it in any other functions.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncFifoAllocate.html">ncFifoAllocate()</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncFifoDestroy.html">ncFifoDestroy()</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncFifoSetOption.html">ncFifoSetOption()</a></td>
+      <td>All FIFO options must be set before calling <a href="ncapi2/c_api/ncFifoAllocate.html">ncFifoAllocate()</a>.</td>
+    </tr>
+    <tr>
+      <td><em>n/a</em></td>
+      <td><a href="ncapi2/c_api/ncFifoGetOption.html">ncFifoGetOption()</a></td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="example-code-comparison">Example Code Comparison</h1>
+
+<p>NCAPI v1:</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// NCAPI v1</span>
+<span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;mvnc.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// You can check that this return code is MVNC_OK after each API function call</span>
+    <span class="c1">// This is omitted in this example for better readability</span>
+    <span class="n">mvncStatus</span> <span class="n">retCode</span><span class="p">;</span>
+    
+    <span class="c1">// Initialize and open a device</span>
+    <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">NAME_SIZE</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">deviceName</span><span class="p">[</span><span class="n">NAME_SIZE</span><span class="p">];</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="n">deviceHandle</span><span class="p">;</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">mvncGetDeviceName</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">deviceName</span><span class="p">,</span> <span class="n">NAME_SIZE</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">mvncOpenDevice</span><span class="p">(</span><span class="n">deviceName</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">deviceHandle</span><span class="p">);</span>
+    
+    <span class="c1">// Read a graph from file at some GRAPH_FILEPATH</span>
+    <span class="c1">// void* graphBuffer = ...</span>
+    <span class="c1">// unsigned int graphBufferLength = ...</span>
+    
+    <span class="c1">// Allocate the graph to the device</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="n">graphHandle</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">mvncAllocateGraph</span><span class="p">(</span><span class="n">deviceHandle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">graphHandle</span><span class="p">,</span> <span class="n">graphBuffer</span><span class="p">,</span> <span class="n">graphBufferLength</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">graphBuffer</span><span class="p">)</span>
+    
+    <span class="c1">// Read and pre-process input (16 bit floating point data type required)</span>
+    <span class="c1">// void* imageBuffer = ...</span>
+    <span class="c1">// unsigned int imageBufferLength = ...</span>
+    
+    <span class="cp"># Load the image to the device
+</span>    <span class="n">retCode</span> <span class="o">=</span> <span class="n">mvncLoadTensor</span><span class="p">(</span><span class="n">graphHandle</span><span class="p">,</span> <span class="n">imageBuffer</span><span class="p">,</span> <span class="n">imageBufferLength</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">imageBuffer</span><span class="p">);</span>
+    
+    <span class="c1">// Get the results from the device</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="n">resultData</span><span class="p">;</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="n">userParam</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">resultDataLength</span><span class="p">;</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">mvncGetResult</span><span class="p">(</span><span class="n">graphHandle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">resultData</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">resultDataLength</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">userParam</span><span class="p">);</span>
+    
+    <span class="c1">// Do something with the results...</span>
+    
+    <span class="c1">// Clean up</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">mvncDeallocateGraph</span><span class="p">(</span><span class="n">graphHandle</span><span class="p">);</span>
+    <span class="n">graphHandle</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">mvncCloseDevice</span><span class="p">(</span><span class="n">devHandle</span><span class="p">);</span>
+    <span class="n">deviceHandle</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>NCAPI v2:</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// NCAPI v2</span>
+<span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;mvnc.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// You can check that this return code is equal to NC_OK after each API function call</span>
+    <span class="c1">// This is omitted in this example for better readability</span>
+    <span class="n">ncStatus_t</span> <span class="n">retCode</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">optionSize</span><span class="p">;</span>
+
+    <span class="c1">// Initialize and open a device</span>
+    <span class="k">struct</span> <span class="n">ncDeviceHandle_t</span><span class="o">*</span> <span class="n">deviceHandle</span><span class="p">;</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncDeviceCreate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">deviceHandle</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncDeviceOpen</span><span class="p">(</span><span class="n">deviceHandle</span><span class="p">);</span>
+
+    <span class="c1">// Load a graph from file</span>
+    <span class="c1">// void* graphBuffer = ...</span>
+    <span class="c1">// unsigned int graphBufferLength = ...</span>
+
+    <span class="c1">// Initialize and allocate the graph to the device</span>
+    <span class="k">struct</span> <span class="n">ncGraphHandle_t</span><span class="o">*</span> <span class="n">graphHandle</span><span class="p">;</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncGraphCreate</span><span class="p">(</span><span class="s">"graph1"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">graphHandle</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncGraphAllocate</span><span class="p">(</span><span class="n">deviceHandle</span><span class="p">,</span> <span class="n">graphHandle</span><span class="p">,</span> <span class="n">graphBuffer</span><span class="p">,</span> <span class="n">graphBufferLength</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">graphBuffer</span><span class="p">);</span>
+       
+    <span class="c1">// Create an input FIFO</span>
+    <span class="k">struct</span> <span class="n">ncFifoHandle_t</span><span class="o">*</span> <span class="n">inputFIFO</span><span class="p">;</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoCreate</span><span class="p">(</span><span class="s">"input1"</span><span class="p">,</span> <span class="n">NC_FIFO_HOST_WO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">inputFIFO</span><span class="p">);</span>
+    <span class="k">struct</span> <span class="n">ncTensorDescriptor_t</span> <span class="n">inputDescriptor</span><span class="p">;</span>
+    <span class="n">optionSize</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">inputDescriptor</span><span class="p">);</span>
+    <span class="n">ncGraphGetOption</span><span class="p">(</span><span class="n">graphHandle</span><span class="p">,</span> <span class="n">NC_RO_GRAPH_INPUT_TENSOR_DESCRIPTORS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">inputDescriptor</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">optionSize</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoAllocate</span><span class="p">(</span><span class="n">inputFIFO</span><span class="p">,</span> <span class="n">deviceHandle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">inputDescriptor</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+
+    <span class="c1">// Create an output FIFO    </span>
+    <span class="k">struct</span> <span class="n">ncFifoHandle_t</span><span class="o">*</span> <span class="n">outputFIFO</span><span class="p">;</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoCreate</span><span class="p">(</span><span class="s">"output1"</span><span class="p">,</span> <span class="n">NC_FIFO_HOST_RO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outputFIFO</span><span class="p">);</span>
+    <span class="k">struct</span> <span class="n">ncTensorDescriptor_t</span> <span class="n">outputDescriptor</span><span class="p">;</span>
+    <span class="n">optionSize</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">inputDescriptor</span><span class="p">);</span>
+    <span class="n">ncGraphGetOption</span><span class="p">(</span><span class="n">graphHandle</span><span class="p">,</span> <span class="n">NC_RO_GRAPH_OUTPUT_TENSOR_DESCRIPTORS</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outputDescriptor</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">optionSize</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoAllocate</span><span class="p">(</span><span class="n">outputFIFO</span><span class="p">,</span> <span class="n">deviceHandle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outputDescriptor</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+
+    <span class="c1">// Read and preprocess input...</span>
+    <span class="c1">// float* imageBuffer = ...</span>
+    <span class="c1">// unsigned int imageBufferLength = ...</span>
+
+    <span class="c1">// Write the image to the input FIFO    </span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoWriteElem</span><span class="p">(</span><span class="n">inputFIFO</span><span class="p">,</span> <span class="n">imageBuffer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">imageBufferLength</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">imageBuffer</span><span class="p">);</span>
+    
+    <span class="c1">// Queue the inference</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncGraphQueueInference</span><span class="p">(</span><span class="n">graphHandle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">inputFIFO</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outputFIFO</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+    <span class="c1">// Get the results from the output FIFO</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="n">result</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">fifoOutputSize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">optionDataLen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">fifoOutputSize</span><span class="p">);</span>
+    <span class="n">ncFifoGetOption</span><span class="p">(</span><span class="n">outFifoHandlePtr</span><span class="p">,</span> <span class="n">NC_RO_FIFO_ELEMENT_DATA_SIZE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fifoOutputSize</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">optionDataLen</span><span class="p">);</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">fifoOutputSize</span><span class="p">);</span>    
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoReadElem</span><span class="p">(</span><span class="n">outputFIFO</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fifoOutputSize</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+    <span class="c1">// Do something with the results...</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+    
+    <span class="c1">// Clean up</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inputFIFO</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">outputFIFO</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncGraphDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graphHandle</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncDeviceClose</span><span class="p">(</span><span class="n">deviceHandle</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncDeviceDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">deviceHandle</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>NCAPI v2 with convenience functions:</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// NCAPI v2</span>
+<span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;mvnc.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// You can check that this return code is equal to NC_OK after each API function call</span>
+    <span class="c1">// This is omitted in this example for better readability</span>
+    <span class="n">ncStatus_t</span> <span class="n">retCode</span><span class="p">;</span>
+
+    <span class="c1">// Initialize and open a device</span>
+    <span class="k">struct</span> <span class="n">ncDeviceHandle_t</span><span class="o">*</span> <span class="n">deviceHandle</span><span class="p">;</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncDeviceCreate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">deviceHandle</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncDeviceOpen</span><span class="p">(</span><span class="n">deviceHandle</span><span class="p">);</span>
+
+    <span class="c1">// Load a graph from file</span>
+    <span class="c1">// void* graphBuffer = ...</span>
+    <span class="c1">// unsigned int graphBufferLength = ...</span>
+    
+    <span class="c1">// Initialize the graph</span>
+    <span class="k">struct</span> <span class="n">ncGraphHandle_t</span><span class="o">*</span> <span class="n">graphHandle</span><span class="p">;</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncGraphCreate</span><span class="p">(</span><span class="s">"graph1"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">graphHandle</span><span class="p">);</span>
+       
+    <span class="c1">// CONVENIENCE FUNCTION: Allocate the graph to the device and create input/output FIFOs with default options</span>
+    <span class="c1">// Alternatively, use ncGraphAllocateWithFifosEx() to do this with explicit FIFO options</span>
+    <span class="k">struct</span> <span class="n">ncFifoHandle_t</span><span class="o">*</span> <span class="n">inputFIFO</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">ncFifoHandle_t</span><span class="o">*</span> <span class="n">outputFIFO</span><span class="p">;</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncGraphAllocateWithFifos</span><span class="p">(</span><span class="n">deviceHandle</span><span class="p">,</span> <span class="n">graphHandle</span><span class="p">,</span> <span class="n">graphBuffer</span><span class="p">,</span> <span class="n">graphBufferLength</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">inputFIFO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outputFIFO</span><span class="p">);</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">graphBuffer</span><span class="p">);</span>
+
+    <span class="c1">// Read and preprocess input...</span>
+    <span class="c1">// float* imageBuffer = ...</span>
+    <span class="c1">// unsigned int imageBufferLength = ...</span>
+
+    <span class="c1">// Write the image to the input FIFO and queue the inference</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncGraphQueueInferenceWithFifoElem</span><span class="p">(</span>
+                    <span class="n">graphHandle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">inputFIFO</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">outputFIFO</span><span class="p">,</span>
+                    <span class="n">imageBuffer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">imageBufferLength</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>    
+    
+    <span class="c1">// Get the results from the output FIFO</span>
+    <span class="kt">void</span><span class="o">*</span> <span class="n">result</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">fifoOutputSize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">optionDataLen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">fifoOutputSize</span><span class="p">);</span>
+    <span class="n">ncFifoGetOption</span><span class="p">(</span><span class="n">outFifoHandlePtr</span><span class="p">,</span> <span class="n">NC_RO_FIFO_ELEMENT_DATA_SIZE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fifoOutputSize</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">optionDataLen</span><span class="p">);</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">fifoOutputSize</span><span class="p">);</span>    
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoReadElem</span><span class="p">(</span><span class="n">outputFIFO</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">fifoOutputSize</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+    <span class="c1">// Do something with the results...</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+
+    <span class="c1">// Clean up</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inputFIFO</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncFifoDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">outputFIFO</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncGraphDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graphHandle</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncDeviceClose</span><span class="p">(</span><span class="n">deviceHandle</span><span class="p">);</span>
+    <span class="n">retCode</span> <span class="o">=</span> <span class="n">ncDeviceDestroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">deviceHandle</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+        </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+</div>
+<!-- /#main -->
+    </div>
+
+</body>
+
+<footer>
+            <div class="row">
+                <div class="col-lg-12 footer">
+               &copy;2018 Intel Corporation <br />
+                    * Other names and brands may be claimed as the property of others.
+                </div>
+            </div>
+</footer>
+
+</html>
