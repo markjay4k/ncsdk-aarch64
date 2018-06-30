@@ -380,7 +380,7 @@ function install_rock64_python_dependencies
 	exit_on_error "$SUDO_PREFIX apt $APT_QUIET install -y python3-matplotlib"
 	exit_on_error "$SUDO_PREFIX apt $APT_QUIET install -y python3-protobuf" #warning, is only 3.0.0-9.  is this good enough???
 	exit_on_error "$SUDO_PREFIX apt $APT_QUIET install -y python3-dateutil"
-	exit_on_error "$SUDO_PREFIX apt $APT_QUIET -y python3-skimage"
+	exit_on_error "$SUDO_PREFIX apt $APT_QUIET install -y python3-skimage"
 	exit_on_error "$SUDO_PREFIX apt $APT_QUIET install -y python3-scipy"
 	exit_on_error "$SUDO_PREFIX apt $APT_QUIET install -y python3-six"
 	exit_on_error "$SUDO_PREFIX apt $APT_QUIET install -y python3-networkx"
