@@ -1,17 +1,23 @@
-# Intel® Movidius™ Neural Compute SDK - Modified to install on rock64 (aarch64 with ubuntu 18.04)
+# Intel® Movidius™ Neural Compute SDK
+## Modified to install on rock64 (aarch64 with ubuntu 18.04)
 This Intel® Movidius™ Neural Compute software developer kit (NCSDK) is provided for users of the [Intel® Movidius™ Neural Compute Stick](https://developer.movidius.com/) (Intel® Movidius™ NCS). It includes software tools, an API, and examples, so developers can create software that takes advantage of the accelerated neural network capability provided by the Intel Movidius NCS hardware.
 
--------
-All documentation in the docs directory is now in HTML format which is **best viewed from the documentation site: https://movidius.github.io/ncsdk/** 
--------
 -------
 
 # Installation
 The provided Makefile helps with installation. Clone this repository and then run the following command to install the NCSDK:
 
+```bash
+git clone https://github.com/markjay4k/ncsdk-aarch64.git
+cd ncsdk-aarch64
+sudo make install
+source ~/.bashrc
+sudo make api
 ```
-git clone
-make install
+## Install Tensorflow (optional)
+```bash
+git clone https://github.com/markjay4k/Tensorflow-1.9rc0-py36-aarch64.git
+pip3 install ./Tensorflow-1.9rc0-py36-aarch64.git/tensorflow-1.9.0rc0-cp36-cp36m-linux_aarch64.whl
 ```
 
 # Examples
