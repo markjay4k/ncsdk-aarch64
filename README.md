@@ -21,7 +21,7 @@ pip3 install Tensorflow-1.9rc0-py36-aarch64/tensorflow-1.9.0rc0-cp36-cp36m-linux
 ```
 
 # Examples
-The Neural Compute SDK also includes examples. After cloning and running 'make install,' run the following command to install the examples:
+The Neural Compute SDK also includes examples. Plug the NCS in and run the following command to install the examples:
 ```
 sudo make examples
 ```
