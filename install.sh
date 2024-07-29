@@ -6,7 +6,7 @@ sudo cp -f ncsdk.conf /tmp
 download_filename=NCSDK-1.12.tar.gz
 
 # ncsdk_link is the url
-# ncsdk_link=https://software.intel.com/sites/default/files/managed/33/1b/NCSDK-1.12.00.01.tar.gz
+# ncsdk_link=https://software.intel.com/sites/default/files/managed/33/1b/NCSDK-1.12.01.01.tar.gz
 
 # download the payload from the redirector link
 # and save it the download_filename no matter what the original filename was
@@ -33,7 +33,7 @@ sudo mkdir -p /opt/movidius
 # untar the new install and run the install script
 # sudo tar zxvf ./ncsdk.tar.gz
 # sudo mv $ncsdk_pkg* NCSDK
-sudo cp -r NCSDK-1.12.00.01 /opt/movidius/NCSDK
+sudo cp -r NCSDK-1.12.01.01 /opt/movidius/NCSDK
 cd /opt/movidius/NCSDK
 sudo cp /tmp/ncsdk.conf .
 ./install-ncsdk.sh
